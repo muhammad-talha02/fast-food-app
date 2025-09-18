@@ -14,25 +14,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function App() {
   return (
     <SafeAreaView className="flex-1 bg-white">
-  
       <FlatList
         contentContainerClassName="pb-28 px-5"
         data={offers}
-        ListHeaderComponent={()=>(
-              <View className="flex-between flex-row w-full my-5">
-        <View className="flex-start">
-          <Text className="small-bold text-primary">DELIEVER TO</Text>
-          <TouchableOpacity className="flex-row flex-center gap-x-1 mt-0.5">
-            <Text className="paragraph-bold text-dark-100">Abu Dhabi</Text>
-            <Image
-              source={images.arrowDown}
-              className="size-3"
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View>
-        <CartButton/>
-      </View>
+        ListHeaderComponent={() => (
+          <View className="flex-between flex-row w-full my-5">
+            <View className="flex-start">
+              <Text className="small-bold text-primary">DELIEVER TO</Text>
+              <TouchableOpacity className="flex-row flex-center gap-x-1 mt-0.5">
+                <Text className="paragraph-bold text-dark-100">Abu Dhabi</Text>
+                <Image
+                  source={images.arrowDown}
+                  className="size-3"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+            <CartButton />
+          </View>
         )}
         renderItem={({ item, index }) => {
           const isEven = index % 2 === 0;

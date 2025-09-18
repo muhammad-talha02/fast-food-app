@@ -12,14 +12,16 @@ export default function RootLayout() {
     "Quicksand-Light": require("../assets/fonts/Quicksand-Light.ttf"),
   });
 
-useEffect(() => {
+  useEffect(() => {
     if (error) throw error;
-    if(fontsLoaded) SplashScreen.hideAsync()
-  }, [fontsLoaded,error]);
+    if (fontsLoaded) SplashScreen.hideAsync();
+  }, [fontsLoaded, error]);
 
-  // if (!fontsLoaded) {
-  //   return null; // or a loading spinner
-  // }
-
-  return <Stack screenOptions={{headerShown:false}}/>;
+  // return <Stack screenOptions={{headerShown:false}}/>;
+  return (
+    <Stack initialRouteName="(tabs)" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(auth)" />
+    </Stack>
+  );
 }
