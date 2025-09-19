@@ -69,6 +69,7 @@ export const signInUser = async ({ email, password }: SignInParams) => {
       email,
       password,
     });
+    console.log({ session });
   } catch (error) {
     throw new Error("Error SignIn user: " + error);
   }
@@ -89,3 +90,13 @@ export const getCurrentUser = async () => {
     throw new Error("Error getting current user: " + error);
   }
 };
+  async function deleteAllUserSessions() {
+        try {
+            await account.deleteSessions(); // Deletes all sessions for the current user
+            console.log('All sessions deleted successfully');
+        } catch (error) {
+            console.error('Error deleting all sessions:', error);
+        }
+    }
+
+    // deleteAllUserSessions();
