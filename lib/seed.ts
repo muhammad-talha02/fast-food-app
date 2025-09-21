@@ -120,7 +120,7 @@ console.log("Cleared existing data.");
   // 4. Create Menu Items
   const menuMap: Record<string, string> = {};
   for (const item of data.menu) {
-    const uploadedImage = await uploadImageToStorage(item.image_url);
+    // const uploadedImage = await uploadImageToStorage(item.image_url);
     const doc = await databases.createDocument({
       databaseId: appwriteConfig.databaseId,
       collectionId: appwriteConfig.menuCollectionId,
@@ -128,7 +128,7 @@ console.log("Cleared existing data.");
       data: {
         name: item.name,
         description: item.description,
-        image_url: uploadedImage,
+        image_url: item?.image_url,
         price: item.price,
         rating: item.rating,
         calories: item.calories,

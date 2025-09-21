@@ -130,7 +130,7 @@ export const getMenuItems = async ({ category, query }: GetMenuParams) => {
       collectionId: appwriteConfig.menuCollectionId!,
       queries,
     });
-    console.log(JSON.stringify(menuItems?.documents, null, 2));
+
     return menuItems.documents;
   } catch (error) {
     throw new Error("Error getting menu items: " + error);
