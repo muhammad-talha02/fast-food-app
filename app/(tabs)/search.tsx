@@ -1,8 +1,10 @@
 import CartButton from "@/components/CartButton";
+import CategoryFilter from "@/components/CategoryFilter";
 import MenuCard from "@/components/MenuCard";
+import SearchBar from "@/components/SearchBar";
 import { getCategories, getMenuItems } from "@/lib/appwrite";
 import useAppwrite from "@/lib/useAppwrite";
-import { MenuItem } from "@/type";
+import { Category, MenuItem } from "@/type";
 import cn from "clsx";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect } from "react";
@@ -14,9 +16,8 @@ const Search = () => {
     category: string;
   }>();
 
-  const { data: categoriesData } = useAppwrite({
+  const { data: categoriesData  } = useAppwrite({
     fn: getCategories,
-    skip: true,
   });
   const { data, refetch, loading } = useAppwrite({
     fn: getMenuItems,
@@ -24,13 +25,14 @@ const Search = () => {
   });
 
   useEffect(() => {
-    if (category || query) refetch({ category, query, limit: 6 });
+ refetch({ category, query, limit: 6 });
   }, [query, category]);
+
   return (
     <SafeAreaView className="bg-white h-full">
       <FlatList
         data={data}
-        keyExtractor={(item) => item.$id}
+        keyExtractor={(item) => item.$id}        
         renderItem={({ item, index }) => {
           const isFirstRightColItem = index % 2 === 0;
           return (
@@ -56,8 +58,8 @@ const Search = () => {
                 </View>
                 <CartButton/>
               </View>
-              <Text>Saeatch</Text>
-              <Text>Filters</Text>
+             <SearchBar/>
+              <CategoryFilter categories={categoriesData as unknown as Category[]}/>
             </View>
           );
         }}
