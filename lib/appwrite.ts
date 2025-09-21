@@ -6,17 +6,18 @@ import {
   Databases,
   ID,
   Query,
+  Storage,
 } from "react-native-appwrite";
 
 export const appwriteConfig = {
   endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
   projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
   platform: "com.cc.fastfood",
-  databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID,
+  databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID  || '',
   bucketId: "68cfa3eb000c33c0f434",
   usersCollectionId: "user",
   categoriesCollectionId: "categories",
-  menucollectionId: "menu",
+  menuCollectionId: "menu",
   customizationsCollectionId: "customizations",
   menuCustomizationsCollectionId: "menu_customizations",
 };
@@ -29,8 +30,10 @@ client
   .setPlatform(appwriteConfig.platform);
 
 export const account = new Account(client);
-console.log({ account });
+
 export const databases = new Databases(client);
+
+export const storage = new Storage(client)
 
 export const avatars = new Avatars(client);
 
