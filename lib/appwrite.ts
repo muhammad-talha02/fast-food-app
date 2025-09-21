@@ -1,4 +1,4 @@
-import { CreateUserPrams, SignInParams } from "@/type";
+import { CreateUserPrams, GetMenuParams, SignInParams } from "@/type";
 import {
   Account,
   Avatars,
@@ -13,7 +13,7 @@ export const appwriteConfig = {
   endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
   projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
   platform: "com.cc.fastfood",
-  databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID  || '',
+  databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID || "",
   bucketId: "68cfa3eb000c33c0f434",
   usersCollectionId: "user",
   categoriesCollectionId: "categories",
@@ -33,7 +33,7 @@ export const account = new Account(client);
 
 export const databases = new Databases(client);
 
-export const storage = new Storage(client)
+export const storage = new Storage(client);
 
 export const avatars = new Avatars(client);
 
@@ -98,13 +98,41 @@ export const getCurrentUser = async () => {
     throw new Error("Error getting current user: " + error);
   }
 };
-  async function deleteAllUserSessions() {
-        try {
-            await account.deleteSessions(); // Deletes all sessions for the current user
-            console.log('All sessions deleted successfully');
-        } catch (error) {
-            console.error('Error deleting all sessions:', error);
-        }
+
+
+
+//! Get Categories
+
+export const getCategories = async () => {
+  try {
+    const categories = await databases.listDocuments({
+      databaseId: appwriteConfig.databaseId!,
+      collectionId: appwriteConfig.categoriesCollectionId!,
+    });
+    return categories.documents;
+  } catch (error) {
+    throw new Error("Error getting categories: " + error);
+  }
+}
+//! Get Menu Items
+export const getMenuItems = async ({ category, query }: GetMenuParams) => {
+  try {
+    const queries: string[] = [];
+    if (category) {
+      queries.push(Query.equal("categories", category));
+    }
+    if (query) {
+      queries.push(Query.search("name", query));
     }
 
-    // deleteAllUserSessions();
+    const menuItems = await databases.listDocuments({
+      databaseId: appwriteConfig.databaseId!,
+      collectionId: appwriteConfig.menuCollectionId!,
+      queries,
+    });
+    console.log(JSON.stringify(menuItems?.documents, null, 2));
+    return menuItems.documents;
+  } catch (error) {
+    throw new Error("Error getting menu items: " + error);
+  }
+};
